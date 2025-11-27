@@ -23,7 +23,7 @@ pub fn build(b: *std.Build) void {
 
     const run_get_tf = b.addSystemCommand(&.{
         "bash",
-        "src/fetch_tf.sh",
+        b.path("src/fetch_tf.sh").src_path.sub_path,
         version,
         flavor,
         os,
