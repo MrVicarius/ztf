@@ -11,7 +11,7 @@ FLAVOR=$2
 OS=$3
 ARCH=$4
 
-DEPS_DIR="deps"
+DEPS_DIR="../deps"
 META_FILE="${DEPS_DIR}/.tf_meta"
 
 mkdir -p "$DEPS_DIR"

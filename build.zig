@@ -21,17 +21,14 @@ pub fn build(b: *std.Build) void {
         else => @panic("CPU architecture not supported!"),
     };
 
-    const fetch_script = b.addInstallFile(b.path("fetch_tf.sh"), "fetch_tf.sh");
-
     const run_get_tf = b.addSystemCommand(&.{
         "bash",
-        "fetch_tf.sh",
+        "src/fetch_tf.sh",
         version,
         flavor,
         os,
         arch,
     });
-    run_get_tf.step.dependOn(&fetch_script.step);
 
     const root_file = b.addSystemCommand(&.{
         "bash",
