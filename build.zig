@@ -37,13 +37,15 @@ pub fn build(b: *std.Build) void {
     });
     root_file.step.dependOn(&run_get_tf.step);
 
+    const module = b.addModule("tf", .{
+        .root_source_file = b.path("src/root.zig"),
+        .optimize = optimize,
+        .target = target,
+    });
+
     const lib = b.addLibrary(.{
         .name = "ztf",
-        .root_module = b.createModule(.{
-            .root_source_file = b.path("src/root.zig"),
-            .optimize = optimize,
-            .target = target,
-        }),
+        .root_module = module,
     });
     lib.step.dependOn(&root_file.step);
 
@@ -63,11 +65,7 @@ pub fn build(b: *std.Build) void {
         }),
     });
 
-    exe.root_module.addImport("tf", b.createModule(.{
-        .root_source_file = b.path("src/root.zig"),
-        .optimize = optimize,
-        .target = target,
-    }));
+    exe.root_module.addImport("tf", module);
     exe.linkLibC();
     exe.linkLibrary(lib);
 
